@@ -38,7 +38,8 @@ JOIN ORDER_DETAILS od ON p.product_id = od.product_id
 JOIN ORDERS o ON od.order_id = o.order_id
 WHERE o.order_status != 'Cancelled'
 GROUP BY p.product_id, p.product_name
-ORDER BY Total_Revenue_Generated DESC;
+-- SỬA Ở ĐÂY: Sắp xếp giảm dần theo Số lượng thay vì Doanh thu
+ORDER BY Total_Quantity_Sold DESC;
 
 -- ========================================================
 -- 2. STORED PROCEDURES (Tạo 2 procedures)
@@ -87,10 +88,10 @@ DELIMITER ;
 
 DELIMITER //
 
--- Xóa trigger cũ nếu đã tồn tại (để tránh lỗi 1359)
-DROP TRIGGER IF EXISTS trg_decrease_stock_after_order;
+-- 1. Xóa trigger cũ để tránh lỗi "Already exists"
+DROP TRIGGER IF EXISTS trg_decrease_stock_after_order //
 
--- Tạo lại Trigger: Tự động trừ kho khi thêm chi tiết đơv_monthly_sales_summaryn hàng
+-- 2. Tạo lại Trigger
 CREATE TRIGGER trg_decrease_stock_after_order
 AFTER INSERT ON ORDER_DETAILS
 FOR EACH ROW

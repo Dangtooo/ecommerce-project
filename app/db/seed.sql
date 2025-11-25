@@ -39,23 +39,44 @@ INSERT INTO PRODUCTS (product_name, category, unit_price, stock_quantity) VALUES
 ('Backpack', 'Fashion', 800000, 80),
 ('Smart Watch', 'Electronics', 5000000, 60);
 
--- 4. Chèn ORDERS
+-- 4. Chèn ORDERS (Dữ liệu rải rác năm 2025)
 INSERT INTO ORDERS (customer_id, order_date, order_status) VALUES 
-(1, '2023-10-01 08:00:00', 'Delivered'), (2, '2023-10-02 09:00:00', 'Delivered'), 
-(3, '2023-10-03 10:00:00', 'Shipped'), (4, '2023-10-04 11:00:00', 'Pending'),
-(5, '2023-10-05 12:00:00', 'Cancelled'), (1, '2023-10-06 13:00:00', 'Delivered'),
-(2, '2023-10-07 14:00:00', 'Delivered'), (3, '2023-10-08 15:00:00', 'Shipped'),
-(4, '2023-10-09 16:00:00', 'Pending'), (5, '2023-10-10 17:00:00', 'Cancelled'),
-(6, '2023-10-11 08:30:00', 'Delivered'), (7, '2023-10-12 09:30:00', 'Delivered'),
-(8, '2023-10-13 10:30:00', 'Shipped'), (9, '2023-10-14 11:30:00', 'Pending'),
-(10, '2023-10-15 12:30:00', 'Delivered'), (1, '2023-10-16 13:30:00', 'Delivered'),
-(2, '2023-10-17 14:30:00', 'Shipped'), (3, '2023-10-18 15:30:00', 'Pending'),
-(4, '2023-10-19 16:30:00', 'Delivered'), (5, '2023-10-20 17:30:00', 'Cancelled'),
-(6, '2023-10-21 08:15:00', 'Delivered'), (7, '2023-10-22 09:15:00', 'Delivered'),
-(8, '2023-10-23 10:15:00', 'Shipped'), (9, '2023-10-24 11:15:00', 'Pending'),
-(10, '2023-10-25 12:15:00', 'Delivered'), (1, '2023-10-26 13:15:00', 'Delivered'),
-(2, '2023-10-27 14:15:00', 'Shipped'), (3, '2023-10-28 15:15:00', 'Pending'),
-(4, '2023-10-29 16:15:00', 'Delivered'), (5, '2023-10-30 17:15:00', 'Cancelled');
+-- Tháng 1 & 2
+(1, '2025-01-05 08:00:00', 'Delivered'), 
+(2, '2025-01-15 09:00:00', 'Delivered'), 
+(3, '2025-02-02 10:00:00', 'Shipped'), 
+(4, '2025-02-14 11:00:00', 'Pending'),
+(5, '2025-02-20 12:00:00', 'Cancelled'), 
+-- Tháng 3 & 4
+(1, '2025-03-05 13:00:00', 'Delivered'),
+(2, '2025-03-12 14:00:00', 'Delivered'), 
+(3, '2025-03-25 15:00:00', 'Shipped'),
+(4, '2025-04-02 16:00:00', 'Pending'), 
+(5, '2025-04-10 17:00:00', 'Cancelled'),
+-- Tháng 5 & 6
+(6, '2025-05-01 08:30:00', 'Delivered'), 
+(7, '2025-05-15 09:30:00', 'Delivered'),
+(8, '2025-06-01 10:30:00', 'Shipped'), 
+(9, '2025-06-12 11:30:00', 'Pending'),
+(10, '2025-06-25 12:30:00', 'Delivered'), 
+-- Tháng 7 & 8
+(1, '2025-07-05 13:30:00', 'Delivered'),
+(2, '2025-07-20 14:30:00', 'Shipped'), 
+(3, '2025-08-02 15:30:00', 'Pending'),
+(4, '2025-08-15 16:30:00', 'Delivered'), 
+(5, '2025-08-25 17:30:00', 'Cancelled'),
+-- Tháng 9 & 10
+(6, '2025-09-05 08:15:00', 'Delivered'), 
+(7, '2025-09-20 09:15:00', 'Delivered'),
+(8, '2025-10-01 10:15:00', 'Shipped'), 
+(9, '2025-10-15 11:15:00', 'Pending'),
+(10, '2025-10-30 12:15:00', 'Delivered'), 
+-- Tháng 11 & 12
+(1, '2025-11-05 13:15:00', 'Delivered'),
+(2, '2025-11-15 14:15:00', 'Shipped'), 
+(3, '2025-12-01 15:15:00', 'Pending'),
+(4, '2025-12-15 16:15:00', 'Delivered'), 
+(5, '2025-12-25 17:15:00', 'Cancelled');
 
 -- 5. Chèn ORDER_DETAILS
 INSERT INTO ORDER_DETAILS (order_id, product_id, quantity, unit_price) VALUES 
@@ -81,7 +102,7 @@ INSERT INTO ORDER_DETAILS (order_id, product_id, quantity, unit_price) VALUES
 (27, 8, 1, 7000000), (28, 9, 4, 3000000),
 (29, 10, 2, 2000000), (29, 11, 5, 200000),
 (30, 1, 2, 25000000);
-
+SET SQL_SAFE_UPDATES = 0;
 -- Tính tổng tiền
 UPDATE ORDERS o
 SET total_amount = (
@@ -108,25 +129,25 @@ INSERT INTO PAYMENTS (order_id, amount, payment_method, payment_status) VALUES
 (27, 7000000, 'COD', 'Completed'), (28, 12000000, 'Card', 'Pending'),
 (29, 5000000, 'Transfer', 'Completed'), (30, 50000000, 'Card', 'Refunded');
 
--- 7. Chèn SHIPMENTS
+-- 7. Chèn SHIPMENTS (Cập nhật ngày giao hàng khớp với năm 2025)
 INSERT INTO SHIPMENTS (order_id, staff_id, shipment_date, delivery_date, courier_name, tracking_number, shipment_status) VALUES 
-(1, 3, '2023-10-01 10:00:00', '2023-10-03 10:00:00', 'GiaoHangNhanh', 'GHN001', 'Delivered'),
-(2, 3, '2023-10-02 10:00:00', '2023-10-04 10:00:00', 'ViettelPost', 'VT002', 'Delivered'),
-(3, 1, '2023-10-03 12:00:00', NULL, 'GrabExpress', 'GRB003', 'In Transit'),
-(6, 3, '2023-10-06 14:00:00', '2023-10-08 14:00:00', 'GiaoHangNhanh', 'GHN004', 'Delivered'),
-(7, 3, '2023-10-07 14:00:00', '2023-10-09 14:00:00', 'ViettelPost', 'VT005', 'Delivered'),
-(8, 1, '2023-10-08 16:00:00', NULL, 'GiaoHangTietKiem', 'GHTK006', 'In Transit'),
-(11, 3, '2023-10-11 09:00:00', '2023-10-13 09:00:00', 'GiaoHangNhanh', 'GHN007', 'Delivered'),
-(12, 3, '2023-10-12 10:00:00', '2023-10-14 10:00:00', 'ViettelPost', 'VT008', 'Delivered'),
-(13, 1, '2023-10-13 11:00:00', NULL, 'GrabExpress', 'GRB009', 'In Transit'),
-(15, 3, '2023-10-15 13:00:00', '2023-10-17 13:00:00', 'GiaoHangNhanh', 'GHN010', 'Delivered'),
-(16, 3, '2023-10-16 14:00:00', '2023-10-18 14:00:00', 'ViettelPost', 'VT011', 'Delivered'),
-(17, 1, '2023-10-17 15:00:00', NULL, 'GiaoHangTietKiem', 'GHTK012', 'In Transit'),
-(19, 3, '2023-10-19 17:00:00', '2023-10-21 17:00:00', 'GiaoHangNhanh', 'GHN013', 'Delivered'),
-(21, 3, '2023-10-21 09:00:00', '2023-10-23 09:00:00', 'ViettelPost', 'VT014', 'Delivered'),
-(22, 3, '2023-10-22 10:00:00', '2023-10-24 10:00:00', 'GrabExpress', 'GRB015', 'Delivered'),
-(23, 1, '2023-10-23 11:00:00', NULL, 'GiaoHangNhanh', 'GHN016', 'In Transit'),
-(25, 3, '2023-10-25 13:00:00', '2023-10-27 13:00:00', 'ViettelPost', 'VT017', 'Delivered'),
-(26, 3, '2023-10-26 14:00:00', '2023-10-28 14:00:00', 'GiaoHangTietKiem', 'GHTK018', 'Delivered'),
-(27, 1, '2023-10-27 15:00:00', NULL, 'GiaoHangNhanh', 'GHN019', 'In Transit'),
-(29, 3, '2023-10-29 17:00:00', '2023-10-31 17:00:00', 'ViettelPost', 'VT020', 'Delivered');
+(1, 3, '2025-01-06 10:00:00', '2025-01-08 10:00:00', 'GiaoHangNhanh', 'GHN001', 'Delivered'),
+(2, 3, '2025-01-16 10:00:00', '2025-01-18 10:00:00', 'ViettelPost', 'VT002', 'Delivered'),
+(3, 1, '2025-02-03 12:00:00', NULL, 'GrabExpress', 'GRB003', 'In Transit'),
+(6, 3, '2025-03-06 14:00:00', '2025-03-08 14:00:00', 'GiaoHangNhanh', 'GHN004', 'Delivered'),
+(7, 3, '2025-03-13 14:00:00', '2025-03-15 14:00:00', 'ViettelPost', 'VT005', 'Delivered'),
+(8, 1, '2025-03-26 16:00:00', NULL, 'GiaoHangTietKiem', 'GHTK006', 'In Transit'),
+(11, 3, '2025-05-02 09:00:00', '2025-05-04 09:00:00', 'GiaoHangNhanh', 'GHN007', 'Delivered'),
+(12, 3, '2025-05-16 10:00:00', '2025-05-18 10:00:00', 'ViettelPost', 'VT008', 'Delivered'),
+(13, 1, '2025-06-02 11:00:00', NULL, 'GrabExpress', 'GRB009', 'In Transit'),
+(15, 3, '2025-06-26 13:00:00', '2025-06-28 13:00:00', 'GiaoHangNhanh', 'GHN010', 'Delivered'),
+(16, 3, '2025-07-06 14:00:00', '2025-07-08 14:00:00', 'ViettelPost', 'VT011', 'Delivered'),
+(17, 1, '2025-07-21 15:00:00', NULL, 'GiaoHangTietKiem', 'GHTK012', 'In Transit'),
+(19, 3, '2025-08-16 17:00:00', '2025-08-18 17:00:00', 'GiaoHangNhanh', 'GHN013', 'Delivered'),
+(21, 3, '2025-09-06 09:00:00', '2025-09-08 09:00:00', 'ViettelPost', 'VT014', 'Delivered'),
+(22, 3, '2025-09-21 10:00:00', '2025-09-23 10:00:00', 'GrabExpress', 'GRB015', 'Delivered'),
+(23, 1, '2025-10-02 11:00:00', NULL, 'GiaoHangNhanh', 'GHN016', 'In Transit'),
+(25, 3, '2025-10-31 13:00:00', '2025-11-02 13:00:00', 'ViettelPost', 'VT017', 'Delivered'),
+(26, 3, '2025-11-06 14:00:00', '2025-11-08 14:00:00', 'GiaoHangTietKiem', 'GHTK018', 'Delivered'),
+(27, 1, '2025-11-16 15:00:00', NULL, 'GiaoHangNhanh', 'GHN019', 'In Transit'),
+(29, 3, '2025-12-16 17:00:00', '2025-12-18 17:00:00', 'ViettelPost', 'VT020', 'Delivered');
