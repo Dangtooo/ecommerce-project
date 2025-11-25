@@ -9,7 +9,6 @@ load_dotenv()
 def get_db_connection():
     """
     Tạo kết nối đến database.
-    Sử dụng st.cache_resource để không phải kết nối lại mỗi khi load trang.
     """
     try:
         connection = mysql.connector.connect(

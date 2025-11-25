@@ -2,9 +2,9 @@ import streamlit as st
 from app.models import order_dao
 
 def render_order_list():
-    st.header("📦 Danh sách Đơn hàng")
+    st.header("Danh sách Đơn hàng")
     
-    search = st.text_input("🔍 Tìm kiếm theo tên khách hàng:")
+    search = st.text_input("Tìm kiếm theo tên khách hàng:")
     
     df_orders = order_dao.fetch_orders(search)
     

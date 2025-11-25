@@ -1,6 +1,6 @@
 # SQL constants
 
-GET_MONTHLY_SUMMARY = "SELECT * FROM v_monthly_sales_summary ORDER BY Year DESC, Month DESC"
+GET_MONTHLY_SUMMARY = "SELECT * FROM v_monthly_sales_summary"
 
 GET_TOP_PRODUCTS = "SELECT * FROM v_popular_products LIMIT 10"
 

@@ -2,7 +2,7 @@ import streamlit as st
 from app.models import order_dao
 
 def render_create_order_page():
-    st.header("📝 Tạo Đơn hàng Mới")
+    st.header("Tạo Đơn hàng Mới")
     
     # Lấy dữ liệu dropdown
     df_customers = order_dao.fetch_customers()
@@ -34,7 +34,7 @@ def render_create_order_page():
             success, msg = order_dao.create_new_order(cust_id, prod_id, qty, current_price)
             
             if success:
-                st.success(f"✅ {msg}")
+                st.success(f"{msg}")
                 st.balloons()
             else:
-                st.error(f"❌ Lỗi: {msg}")
+                st.error(f"Lỗi: {msg}")
