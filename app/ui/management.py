@@ -3,9 +3,9 @@ import pandas as pd
 from app.models import order_dao
 
 def render_management_page():
-    st.header("🛠️ Quản lý Dữ liệu gốc (Master Data)")
+    st.header("Quản lý Dữ liệu gốc (Master Data)")
     
-    tab1, tab2 = st.tabs(["📦 Quản lý Sản phẩm", "busts_in_silhouette: Quản lý Khách hàng"])
+    tab1, tab2 = st.tabs(["Quản lý Sản phẩm", "Quản lý Khách hàng"])
 
     # --- TAB 1: SẢN PHẨM ---
     with tab1:
@@ -15,7 +15,7 @@ def render_management_page():
             st.dataframe(df_prods, use_container_width=True)
         
         st.divider()
-        st.subheader("➕ Thêm Sản phẩm mới")
+        st.subheader("Thêm Sản phẩm mới")
         with st.form("add_product_form", clear_on_submit=True):
             col1, col2 = st.columns(2)
             name = col1.text_input("Tên sản phẩm")
@@ -42,7 +42,7 @@ def render_management_page():
             st.dataframe(df_cust, use_container_width=True)
 
         st.divider()
-        st.subheader("➕ Thêm Khách hàng mới")
+        st.subheader("Thêm Khách hàng mới")
         with st.form("add_customer_form", clear_on_submit=True):
             c_name = st.text_input("Họ và tên")
             c_email = st.text_input("Email")
