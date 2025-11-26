@@ -98,35 +98,33 @@ def add_new_customer(full_name, email, phone, address):
     return False, "Lỗi kết nối"
 
 def delete_order(order_id):
-    """Xóa đơn hàng theo ID"""
+    """Xóa đơn hàng theo ID (Xóa sạch các dữ liệu liên quan trước)"""
     conn = get_db_connection()
     if conn:
         cursor = conn.cursor()
         try:
-            # Chỉ cần xóa bảng ORDERS, bảng ORDER_DETAILS sẽ tự xóa nhờ ON DELETE CASCADE
-            sql = "DELETE FROM ORDERS WHERE order_id = %s"
-            cursor.execute(sql, (order_id,))
+            # BƯỚC 1: Xóa dữ liệu Vận chuyển liên quan trước
+            sql_ship = "DELETE FROM SHIPMENTS WHERE order_id = %s"
+            cursor.execute(sql_ship, (order_id,))
+
+            # BƯỚC 2: Xóa dữ liệu Thanh toán liên quan
+            sql_pay = "DELETE FROM PAYMENTS WHERE order_id = %s"
+            cursor.execute(sql_pay, (order_id,))
+            
+            # Lưu ý: Bảng ORDER_DETAILS đã có ON DELETE CASCADE trong SQL 
+            # nên không cần xóa thủ công, nó sẽ tự mất khi xóa ORDERS.
+
+            # BƯỚC 3: Xóa Đơn hàng gốc
+            sql_order = "DELETE FROM ORDERS WHERE order_id = %s"
+            cursor.execute(sql_order, (order_id,))
+            
             conn.commit()
             cursor.close()
             conn.close()
-            return True, f"Đã xóa đơn hàng #{order_id}"
+            return True, f"Đã xóa thành công đơn hàng #{order_id} và các dữ liệu liên quan."
         except Exception as e:
             conn.close()
-            return False, str(e)
-    return False, "Lỗi kết nối"
-
-def fetch_detailed_report():
-    """Lấy báo cáo chi tiết cho yêu cầu xuất CSV"""
-    conn = get_db_connection()
-    if conn:
-        # LEFT JOIN theo yêu cầu số [81]
-        sql = """
-        SELECT c.full_name, c.email, o.order_id, o.order_date, o.total_amount, o.order_status
-        FROM CUSTOMERS c
-        LEFT JOIN ORDERS o ON c.customer_id = o.customer_id
-        ORDER BY o.order_date DESC
-        """
-        df = pd.read_sql(sql, conn)
-        conn.close()
-        return df
-    return None
+            # In lỗi ra để dễ debug nếu có vấn đề khác
+            print(f"Error deleting order: {e}") 
+            return False, f"Không thể xóa đơn hàng: {str(e)}"
+    return False, "Lỗi kết nối Database"
