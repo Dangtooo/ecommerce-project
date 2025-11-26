@@ -96,7 +96,6 @@ def add_new_customer(full_name, email, phone, address):
             conn.close()
             return False, str(e)
     return False, "Lỗi kết nối"
-
 def delete_order(order_id):
     """Xóa đơn hàng theo ID (Xóa sạch các dữ liệu liên quan trước)"""
     conn = get_db_connection()
@@ -128,3 +127,19 @@ def delete_order(order_id):
             print(f"Error deleting order: {e}") 
             return False, f"Không thể xóa đơn hàng: {str(e)}"
     return False, "Lỗi kết nối Database"
+
+def fetch_detailed_report():
+    """Lấy báo cáo chi tiết cho yêu cầu xuất CSV"""
+    conn = get_db_connection()
+    if conn:
+        # LEFT JOIN theo yêu cầu số [81]
+        sql = """
+        SELECT c.full_name, c.email, o.order_id, o.order_date, o.total_amount, o.order_status
+        FROM CUSTOMERS c
+        LEFT JOIN ORDERS o ON c.customer_id = o.customer_id
+        ORDER BY o.order_date DESC
+        """
+        df = pd.read_sql(sql, conn)
+        conn.close()
+        return df
+    return None
