@@ -2,8 +2,8 @@ import streamlit as st
 from app.models import order_dao
 
 def render_reports_page():
-    st.header("📑 Báo cáo & Xuất dữ liệu")
-    st.info("Chức năng xuất dữ liệu ra file CSV phục vụ kế toán.")
+    st.header("Report & Export CSV")
+    st.info("Function to export data to CSV file for accounting purposes.")
 
     # Lấy dữ liệu báo cáo chi tiết (Left Join)
     df_report = order_dao.fetch_detailed_report()
@@ -16,9 +16,9 @@ def render_reports_page():
 
         # Nút Download đúng chuẩn yêu cầu
         st.download_button(
-            label="⬇️ Tải xuống CSV (Export)",
+            label="Download CSV (Export)",
             data=csv,
-            file_name='bao_cao_chi_tiet.csv',
+            file_name='detailed_report.csv',
             mime='text/csv',
         )
     else:

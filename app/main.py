@@ -16,28 +16,28 @@ st.set_page_config(page_title="E-commerce Manager", layout="wide", page_icon="�
 
 def main():
     st.sidebar.title("🛒 E-Shop Admin")
-    st.sidebar.write("Hệ thống quản lý bán hàng v1.0")
+    st.sidebar.write("Ecommerce manager system")
     
     menu = st.sidebar.radio(
         "Menu chức năng",
         [
-            "📊 Dashboard (Tổng quan)", 
-            "📦 Đơn hàng (Orders)", 
-            "📝 Tạo đơn mới", 
-            "🛠️ Quản lý Kho & Khách",  # Mới
-            "📑 Báo cáo & Export CSV"   # Mới
+            "Dashboard", 
+            "Orders", 
+            "Create new order", 
+            "Store and customers management",  # Mới
+            "Report & Export CSV"   # Mới
         ]
     )
 
-    if menu == "📊 Dashboard (Tổng quan)":
+    if menu == "Dashboard":
         render_dashboard()
-    elif menu == "📦 Đơn hàng (Orders)":
+    elif menu == "Orders":
         render_order_list()
-    elif menu == "📝 Tạo đơn mới":
+    elif menu == "Create new order":
         render_create_order_page()
-    elif menu == "🛠️ Quản lý Kho & Khách":
+    elif menu == "Store and customers management":
         render_management_page()
-    elif menu == "📑 Báo cáo & Export CSV":
+    elif menu == "Report & Export CSV":
         render_reports_page()
 
 if __name__ == "__main__":

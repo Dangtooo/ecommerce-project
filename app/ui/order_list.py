@@ -2,17 +2,17 @@ import streamlit as st
 from app.models import order_dao
 
 def render_order_list():
-    st.header("📦 Quản lý Đơn hàng")
+    st.header("Order Management")
     
     # 1. Tìm kiếm
     col1, col2 = st.columns([3, 1])
-    search = col1.text_input("🔍 Tìm kiếm theo tên khách hàng:")
+    search = col1.text_input("Search the name of customer:")
     
     # 2. Xóa đơn hàng (Nhập ID để xóa cho an toàn)
     with col2:
-        with st.popover("🗑️ Xóa đơn hàng"):
-            del_id = st.number_input("Nhập ID đơn cần xóa", min_value=1, step=1)
-            if st.button("Xác nhận xóa", type="primary"):
+        with st.popover("Remove order"):
+            del_id = st.number_input("Type the ID of the order", min_value=1, step=1)
+            if st.button("Confirm delete", type="primary"):
                 success, msg = order_dao.delete_order(del_id)
                 if success:
                     st.success(msg)

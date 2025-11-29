@@ -19,5 +19,5 @@ def get_db_connection():
         )
         return connection
     except mysql.connector.Error as err:
-        st.error(f"Lỗi kết nối Database: {err}")
+        st.error(f"Failed to connect to Database: {err}")
         return None

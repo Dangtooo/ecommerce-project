@@ -64,21 +64,43 @@ def create_new_order(customer_id, product_id, quantity, price):
             conn.close()
     return success, message
 def add_new_product(name, category, price, stock):
-    """Thêm sản phẩm mới vào Database"""
     conn = get_db_connection()
     if conn:
         cursor = conn.cursor()
         try:
-            sql = "INSERT INTO PRODUCTS (product_name, category, unit_price, stock_quantity) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql, (name, category, float(price), int(stock)))
+            # Check existing
+            check_sql = "SELECT product_id, stock_quantity FROM PRODUCTS WHERE product_name = %s"
+            cursor.execute(check_sql, (name,))
+            existing_product = cursor.fetchone()
+
+            if existing_product:
+                prod_id = existing_product[0]
+                current_stock = existing_product[1]
+                new_stock = current_stock + int(stock)
+                
+                update_sql = """
+                    UPDATE PRODUCTS 
+                    SET stock_quantity = %s, unit_price = %s, category = %s
+                    WHERE product_id = %s
+                """
+                cursor.execute(update_sql, (new_stock, float(price), category, prod_id))
+                msg = f"Product '{name}' exists. Stock updated: {current_stock} -> {new_stock}."
+            else:
+                insert_sql = """
+                    INSERT INTO PRODUCTS (product_name, category, unit_price, stock_quantity) 
+                    VALUES (%s, %s, %s, %s)
+                """
+                cursor.execute(insert_sql, (name, category, float(price), int(stock)))
+                msg = f"New product '{name}' added successfully!"
+
             conn.commit()
+            return True, msg
+        except Exception as e:
+            return False, str(e)
+        finally:
             cursor.close()
             conn.close()
-            return True, "Thêm sản phẩm thành công!"
-        except Exception as e:
-            conn.close()
-            return False, str(e)
-    return False, "Lỗi kết nối"
+    return False, "Database connection error"
 
 def add_new_customer(full_name, email, phone, address):
     """Thêm khách hàng mới"""

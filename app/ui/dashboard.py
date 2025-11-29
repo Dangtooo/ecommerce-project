@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from app.models import order_dao
 
 def render_dashboard():
-    st.header("Báo cáo Doanh thu & Xu hướng")
+    st.header("Report revenue and Trennd")
 
     # 1. Lấy dữ liệu tổng hợp từ SQL
     df_summary = order_dao.fetch_summary_data()
@@ -13,20 +13,20 @@ def render_dashboard():
         # ---------------------------------------------------------
         # KHU VỰC BỘ LỌC (FILTER)
         # ---------------------------------------------------------
-        st.subheader("Chọn thời gian xem báo cáo")
+        st.subheader("Select month")
         
         col_filter_1, col_filter_2 = st.columns(2)
         
         with col_filter_1:
             # Lấy danh sách Năm duy nhất có trong dữ liệu
             unique_years = sorted(df_summary['Year'].unique(), reverse=True)
-            selected_year = st.selectbox("Chọn Năm", unique_years)
+            selected_year = st.selectbox("Select year", unique_years)
 
         with col_filter_2:
             # Lọc ra các tháng chỉ thuộc về Năm đã chọn (để không hiện tháng trống)
             months_in_year = df_summary[df_summary['Year'] == selected_year]['Month'].unique()
             unique_months = sorted(months_in_year, reverse=True) # Tháng mới nhất lên đầu
-            selected_month = st.selectbox("Chọn Tháng", unique_months)
+            selected_month = st.selectbox("Select month", unique_months)
 
         # ---------------------------------------------------------
         # XỬ LÝ SỐ LIỆU THEO LỰA CHỌN
@@ -50,21 +50,21 @@ def render_dashboard():
             
             # KPI 1: Tổng đơn hàng
             col1.metric(
-                label=f"Tổng đơn (Tháng {selected_month}/{selected_year})", 
-                value=f"{row['Total_Orders']} đơn"
+                label=f"Total orders ({selected_month}/{selected_year})", 
+                value=f"{row['Total_Orders']} Orders"
             )
             
             # KPI 2: Doanh thu (Tô màu xanh cho đẹp nếu > 0)
             col2.metric(
-                label="Doanh thu", 
+                label="Revenue", 
                 value=f"{row['Total_Revenue']:,.0f} VNĐ",
-                delta="Doanh thu thực tế" # Chỉ để trang trí
+                delta="Real revenue" # Chỉ để trang trí
             )
             
             # KPI 3: Đơn hủy (Tô màu đỏ nếu có đơn hủy)
             col3.metric(
-                label="Đơn bị hủy", 
-                value=f"{row['Total_Cancelled']} đơn",
+                label="Canceled Orders", 
+                value=f"{row['Total_Cancelled']} Orders",
                 delta_color="inverse" # Màu đỏ thể hiện tiêu cực
             )
 
@@ -75,26 +75,26 @@ def render_dashboard():
         # BIỂU ĐỒ (Giữ nguyên biểu đồ CẢ NĂM để so sánh)
         # ---------------------------------------------------------
         st.divider()
-        st.subheader(f"Xu hướng kinh doanh năm {selected_year}")
+        st.subheader(f"Total revenue in {selected_year}")
         
         df_chart = df_summary[df_summary['Year'] == selected_year].copy()
         
         df_chart = df_chart.sort_values(by='Month')
         
-        df_chart['Time_Label'] = "Tháng " + df_chart['Month'].astype(str)
+        df_chart['Time_Label'] = "Month " + df_chart['Month'].astype(str)
         df_chart['Total_Revenue'] = df_chart['Total_Revenue'].astype(float)
 
         # Vẽ biểu đồ cột
         st.bar_chart(df_chart, x='Time_Label', y='Total_Revenue')
 
     else:
-        st.info("Chưa có dữ liệu đơn hàng nào trong hệ thống.")
+        st.info("No order in database.")
 
     # ---------------------------------------------------------
     # TOP SẢN PHẨM
     # ---------------------------------------------------------
     st.divider()
-    st.subheader("Top Sản phẩm bán chạy nhất (Theo số lượng)")
+    st.subheader("Most sold products (Quantity)")
     
     df_products = order_dao.fetch_top_products()
     
@@ -105,7 +105,7 @@ def render_dashboard():
             st.dataframe(df_products, use_container_width=True)
             
         with col_R:
-            st.write("Tỷ trọng số lượng bán ra:")
+            st.write("Proportion")
             fig, ax = plt.subplots()
 
             ax.pie(
