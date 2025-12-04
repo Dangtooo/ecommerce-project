@@ -165,3 +165,58 @@ def fetch_detailed_report():
         conn.close()
         return df
     return None
+def update_product_stock(product_id, new_quantity):
+    """Cập nhật số lượng tồn kho cho sản phẩm"""
+    conn = get_db_connection()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            sql = "UPDATE PRODUCTS SET stock_quantity = %s WHERE product_id = %s"
+            cursor.execute(sql, (new_quantity, product_id))
+            conn.commit()
+            return True, "Updated successfully"
+        except Exception as e:
+            return False, str(e)
+        finally:
+            cursor.close()
+            conn.close()
+    return False, "Connection error"
+
+def delete_product(product_id):
+    """Xóa sản phẩm (Chỉ xóa được nếu chưa có đơn hàng nào mua nó)"""
+    conn = get_db_connection()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            sql = "DELETE FROM PRODUCTS WHERE product_id = %s"
+            cursor.execute(sql, (product_id,))
+            conn.commit()
+            return True, f"Deleted Product #{product_id}"
+        except Exception as e:
+            # Lỗi thường gặp: Sản phẩm đã nằm trong đơn hàng cũ -> Không xóa được (Ràng buộc khóa ngoại)
+            if "foreign key constraint fails" in str(e).lower():
+                return False, "Cannot delete: This product is part of existing orders."
+            return False, str(e)
+        finally:
+            cursor.close()
+            conn.close()
+    return False, "Connection error"
+
+def delete_customer(customer_id):
+    """Xóa khách hàng (Chỉ xóa được nếu họ chưa đặt đơn nào)"""
+    conn = get_db_connection()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            sql = "DELETE FROM CUSTOMERS WHERE customer_id = %s"
+            cursor.execute(sql, (customer_id,))
+            conn.commit()
+            return True, f"Deleted Customer #{customer_id}"
+        except Exception as e:
+            if "foreign key constraint fails" in str(e).lower():
+                return False, "Cannot delete: This customer has existing orders."
+            return False, str(e)
+        finally:
+            cursor.close()
+            conn.close()
+    return False, "Connection error"

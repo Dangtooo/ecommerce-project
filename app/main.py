@@ -19,7 +19,7 @@ def main():
     st.sidebar.write("Ecommerce manager system")
     
     menu = st.sidebar.radio(
-        "Menu chức năng",
+        "Menu",
         [
             "Dashboard", 
             "Orders", 
