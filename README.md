@@ -1,6 +1,11 @@
 # E-commerce Order Manager
 
 A comprehensive Python application for managing e-commerce operations, including Order Management, Inventory Tracking, Customer Management, and Revenue Reporting. Built with **Streamlit** (GUI) and **MySQL** (Database).
+## 🛠️ Tech Stack
+* **Language:** Python 3.12.6
+* **GUI Framework:** Streamlit
+* **Database:** MySQL
+* **Libraries:** pandas, mysql-connector-python, matplotlib, python-dotenv
 
 ## 🚀 Features
 * **Dashboard:** Real-time KPIs, revenue charts, and sales trends.
@@ -8,12 +13,6 @@ A comprehensive Python application for managing e-commerce operations, including
 * **New Order Creation:** Create orders with automatic stock deduction (Trigger-based).
 * **Master Data:** Manage (Add/Update) Products and Customers.
 * **Reports:** Export detailed sales data to CSV.
-
-## 🛠️ Tech Stack
-* **Language:** Python 3.x
-* **GUI Framework:** Streamlit
-* **Database:** MySQL
-* **Libraries:** pandas, mysql-connector-python, matplotlib, python-dotenv
 
 ---
 
@@ -29,14 +28,31 @@ Ensure you have the following installed:
 
 ### 2. Database Setup (Important!)
 Before running the Python app, you must set up the database.
-1.  Open **MySQL Workbench**.
-2.  Open and run the SQL files located in `app/db/` in the following order:
-    * 1️⃣ **`schema.sql`**: Creates the database `ecommerce_db` and tables.
-    * 2️⃣ **`seed.sql`**: Inserts sample data (Products, Customers, Orders).
-    * *(Note: Stored Procedures and Triggers are included in `schema.sql` or `part_c.sql` if separated).*
-3.  Verify that the database `ecommerce_db` is created and has data.
-
-### 3. Clone the Repository
+1. Clone the **Repository** by using this line (make sure you have Git):
 ```bash
-git clone <your-repo-url>
-cd ecommerce-order-manager
+git clone https://github.com/Dangtooo/ecommerce-project.git
+```
+2.  Open **MySQL Workbench**.
+3.  Open and run the SQL files located in `app/db/` in the following order:
+```bash
+schema.sql
+seed.sql
+queries.sql
+```
+4.  Remember to replace the password by **your MySQL password** in `.env` file:
+```bash
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=<your-password>
+DB_NAME=ecommerce_db
+```
+### 3. Library Setup
+You need to download appropriate libraries to run the program, using this line of command:
+```bash
+pip install -r requirements.txt
+```
+### 4. Run the program
+After MySQL and Library setup, you can now run the program by using this line of command (make sure you in the `/app` folder):
+```bash
+streamlit run main.py
+```
